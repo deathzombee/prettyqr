@@ -37,13 +37,19 @@ class TestBlobGrid(unittest.TestCase):
         class BlobGridTest(BlobGrid):
             def get_value(self, x, y):
                 size = len(test_data)
+                print(size)
                 if not (0 <= x < size) or not (0 <= y < size):
                     return 0
                 return test_data[y][x]
+                print(str(test_data[y] [x]))
 
         self.blob_grid = BlobGridTest(3)
         self.drawing = self.blob_grid.draw_blobs()
-
+        output = ''
+        output += self.drawing
+        output_file = open("tests.txt", 'w')
+        output_file.write(output)
+        output_file.close()
     def test_no_subclass(self):
         blob_grid = BlobGrid(0)
         self.assertRaises(NotImplementedError, blob_grid.draw_blobs)

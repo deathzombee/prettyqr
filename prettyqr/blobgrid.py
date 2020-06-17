@@ -50,7 +50,7 @@ class BlobGrid(object):
         control1 = pointwise('mul', kappa, self.moves[prev_dir])
         control2 = pointwise('sub', final,
             pointwise('mul', 1 - kappa, self.moves[curr_dir]))
-        replacements = pointwise('div', control1 + control2 + final, 2.0)
+        replacements = pointwise('truediv', control1 + control2 + final, 2.0)
         return 'c %s,%s %s,%s %s,%s ' % tuple(replacements)
 
     def draw(self, prev_dir, curr_dir):
@@ -61,7 +61,7 @@ class BlobGrid(object):
 
     def start_draw(self, pos, direction):
         start = pointwise('add', pos,
-            pointwise('div', self.moves[direction], 2.0))
+            pointwise('truediv', self.moves[direction], 2.0))
 
         return '<path d="M %s %s ' % start
 
@@ -69,7 +69,7 @@ class BlobGrid(object):
         output = ''
 
         remaining = []
-        for x, y in itertools.product(xrange(self.size + 1), repeat=2):
+        for x, y in itertools.product(range(self.size + 1), repeat=2):
             remaining.append((x, y))
 
         # we remove each intersection when visited. some are visited twice

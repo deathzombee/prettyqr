@@ -1,5 +1,5 @@
 import itertools
-import Image
+from PIL import Image
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 
@@ -16,14 +16,14 @@ def clear_logo_space(array, size, filename):
 
         if logo_size == (size, size):
             neighbour4 = [(0, 0), (1, 0), (0, 1), (-1, 0), (0, -1)]
-            for x, y in itertools.product(xrange(size), repeat=2):
+            for x, y in itertools.product(range(size), repeat=2):
                 if logo_array[x, y][3] != 0:
                     for offset in neighbour4:
                         array[x + offset[0], y + offset[1]] = 255
         else:
-            print "Raster logo size mismatch, ignoring"
-    except IOError, e:
-        print "Error opening raster logo: [%s] Ignoring." % e.strerror
+            print("Raster logo size mismatch, ignoring")
+    except IOError as e:
+        print("Error opening raster logo: [%s] Ignoring." % e.strerror)
 
 
 def get_svg_logo(filename):
@@ -40,13 +40,14 @@ def get_svg_logo(filename):
                     if n.nodeName not in ignored_nodes])
                 return logo_xml
 
-            except ExpatError, e:
-                print "Error parsing logo svg. [%s] Ignoring logo." % e
+            except ExpatError as e:
+                print("Error parsing logo svg. [%s] Ignoring logo." % e)
 
             except IndexError:
                 print ("Error parsing logo svg: No <svg> node found. "
                     "Ignoring logo.")
-    except IOError, e:
-        print "Error opening logo: [%s] Ignoring." % e.strerror
+    except IOError as e:
+        print("Error opening logo: [%s] Ignoring." % e.strerror)
 
     return ''
+
